@@ -6,15 +6,15 @@ using SalesWebMvc.Models;
 
 namespace SalesWebMvc.Services
 {
-    public class SellersServices
+    public class SellerServices
     {
         private readonly SalesWebMvcContext _context;
 
-        public SellersServices(SalesWebMvcContext context)
+        public SellerServices(SalesWebMvcContext context)
         {
             _context = context;
         }
-
+        
         public List<Seller> FindAll()
         {
             return _context.Seller.ToList();
@@ -22,9 +22,9 @@ namespace SalesWebMvc.Services
 
         public void Insert(Seller obj)
         {
-            obj.Department = _context.Department.First();
             _context.Add(obj);
             _context.SaveChanges();
         }
+        
     }
 }
