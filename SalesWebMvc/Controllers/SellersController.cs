@@ -29,6 +29,12 @@ namespace SalesWebMvc.Controllers
 
         public IActionResult Create()
         {
+            if (!ModelState.IsValid)
+            {
+                var _departments = _departamentService.FindAll();
+                var _viewModel = new SellerFormViewModel { Departments = _departments };
+                return View(_viewModel);
+            }
             var departments = _departamentService.FindAll();
             var viewModel = new SellerFormViewModel { Departments = departments };
             return View(viewModel);
@@ -93,10 +99,16 @@ namespace SalesWebMvc.Controllers
 
             return View(viewModel);
         }
-        [HttpPost,ValidateAntiForgeryToken]
-        public IActionResult Edit(int id,Seller seller)
+        [HttpPost, ValidateAntiForgeryToken]
+        public IActionResult Edit(int id, Seller seller)
         {
-            if (id !=seller.Id)
+            if (!ModelState.IsValid)
+            {
+                var _departments = _departamentService.FindAll();
+                var _viewModel = new SellerFormViewModel { Departments = _departments };
+                return View(_viewModel);
+            }
+            if (id != seller.Id)
             {
                 return RedirectToAction(nameof(Error), new { message = "Id mismatch" });
             }
@@ -108,9 +120,9 @@ namespace SalesWebMvc.Controllers
             catch (ApplicationException e)
             {
 
-                return RedirectToAction(nameof(Error), new { message = e.Message});
+                return RedirectToAction(nameof(Error), new { message = e.Message });
             }
-            
+
         }
 
         public IActionResult Error(string message)
