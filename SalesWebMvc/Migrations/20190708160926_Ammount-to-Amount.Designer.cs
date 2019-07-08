@@ -9,8 +9,8 @@ using SalesWebMvc.Models;
 namespace SalesWebMvc.Migrations
 {
     [DbContext(typeof(SalesWebMvcContext))]
-    [Migration("20190707005942_OtherEntities")]
-    partial class OtherEntities
+    [Migration("20190708160926_Ammount-to-Amount")]
+    partial class AmmounttoAmount
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -36,7 +36,7 @@ namespace SalesWebMvc.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<double>("Ammont");
+                    b.Property<double>("Amount");
 
                     b.Property<DateTime>("Date");
 
@@ -60,11 +60,14 @@ namespace SalesWebMvc.Migrations
 
                     b.Property<DateTime>("BirthDate");
 
-                    b.Property<int?>("DepartmentId");
+                    b.Property<int>("DepartmentId");
 
-                    b.Property<string>("Email");
+                    b.Property<string>("Email")
+                        .IsRequired();
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(60);
 
                     b.HasKey("Id");
 
@@ -84,7 +87,8 @@ namespace SalesWebMvc.Migrations
                 {
                     b.HasOne("SalesWebMvc.Models.Department", "Department")
                         .WithMany("Sellers")
-                        .HasForeignKey("DepartmentId");
+                        .HasForeignKey("DepartmentId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }
